@@ -8,6 +8,15 @@ import VueResource from 'vue-resource';
 Vue.config.productionTip = false
 Vue.use(VueResource);
 
+Vue.http.options.root = 'https://vue-resource-learning.firebaseio.com/data.json';
+Vue.http.interceptors.push((req, next) => {
+  console.log(req);
+  if (req.method == "POST") {
+    req.method = "PUT";
+  }
+  next();
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

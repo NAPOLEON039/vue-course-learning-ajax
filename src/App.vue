@@ -12,6 +12,11 @@
           <input class="form-control" type="email" name="email" id="mail" v-model="user.email">
         </div>
         <button class="btn btn-primary" @click="submit">Submit</button>
+        <hr>
+        <button class="btn btn-primary" @click="fetchData">Get Data</button> <br><br>
+        <ul class="list-group">
+          <li class="list-group-item" v-for="u in users"> {{u.username}} - {{u.email}} </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -25,12 +30,27 @@ export default {
       user: {
         username: '',
         email: ''
-      }
+      },
+      users: []
     }
   },
   methods: {
     submit() {
-      console.log(this.user);
+      this.$http.post('', this.user)
+        .then((result) => console.log(result), error => console.log(error));
+    },
+    fetchData() {
+      this.$http.get('')
+        .then(res => {
+          return res.json();
+        })
+        .then(data => {
+          const arrResult = [];
+          for (let key in data) {
+            arrResult.push(data[key]);
+          }
+          this.users = arrResult;
+        });
     }
   }
 }
